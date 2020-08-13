@@ -1,5 +1,6 @@
 package webapp.ui.login;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -7,6 +8,9 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.security.core.context.SecurityContextHolder;
+import webapp.ui.accounts.AccountDetailsView;
+import webapp.ui.accounts.AccountsGridView;
 
 /**
  * Login view.
@@ -14,7 +18,7 @@ import com.vaadin.flow.router.Route;
  * @since 1.0
  */
 @Route("login")
-@PageTitle("Login | VM Backup Manager")
+@PageTitle("Login | Bank")
 public final class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     private static final long serialVersionUID = 2813883384190122036L;

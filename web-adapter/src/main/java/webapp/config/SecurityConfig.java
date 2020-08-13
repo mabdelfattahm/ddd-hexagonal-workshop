@@ -193,6 +193,7 @@ public class SecurityConfig {
                 .loginPage(WebConfiguration.LOGIN_URL)
                 .permitAll()
                 .loginProcessingUrl(WebConfiguration.LOGIN_URL)
+                .defaultSuccessUrl("/accounts", true)
                 .failureUrl(WebConfiguration.LOGIN_FAILURE_URL)
                 .and()
                 .logout()
