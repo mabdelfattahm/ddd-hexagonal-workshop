@@ -1,0 +1,11 @@
+.nav-menu {
+  flex: 1;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: var(--lumo-space-s) 0;
+}

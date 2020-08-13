@@ -1,0 +1,37 @@
+dn: dc=workshops
+objectclass: top
+objectclass: domain
+objectclass: extensibleObject
+dc: workshops
+
+dn: ou=groups,dc=workshops
+objectclass: top
+objectclass: organizationalUnit
+ou: groups
+
+dn: ou=subgroups,ou=groups,dc=workshops
+objectclass: top
+objectclass: organizationalUnit
+ou: subgroups
+
+dn: ou=people,dc=workshops
+objectclass: top
+objectclass: organizationalUnit
+ou: people
+
+dn: uid=demo,ou=people,dc=workshops
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Moustafa Abdel Fattah
+sn: Abdel Fattah
+uid: demo
+userPassword: $2a$10$avPKLkD3koA/XIIiErMMneV/fK5cO/D5Hpgs6zeZtODW1QxQlkpSu
+
+dn: cn=developers,ou=groups,dc=workshops
+objectclass: top
+objectclass: groupOfUniqueNames
+cn: developers
+ou: developer
+uniqueMember: uid=demo,ou=people,dc=workshops

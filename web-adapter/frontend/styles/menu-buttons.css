@@ -1,0 +1,19 @@
+:host(.menu-button) .vaadin-button-container {
+	justify-content: left;
+}
+
+:host(.menu-button) {
+	cursor: pointer;
+	background-color: transparent;
+	margin: 0;
+
+}
+
+.menu-button {
+	padding-right: 10px;
+	color: var(--lumo-secondary-text-color);
+}
+
+[part] ::slotted(iron-icon[icon^="vaadin:"]) {
+    padding: 0;
+}

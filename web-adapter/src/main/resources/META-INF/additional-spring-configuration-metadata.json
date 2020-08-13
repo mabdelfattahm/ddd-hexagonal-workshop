@@ -1,0 +1,24 @@
+{
+  "properties": [
+    {
+      "name": "ldap.server.url",
+      "type": "java.lang.String",
+      "description": "Description for ldap.server.url."
+    },
+    {
+      "name": "ldap.server.dnPatterns",
+      "type": "java.lang.String",
+      "description": "Description for ldap.server.dnPatterns."
+    },
+    {
+      "name": "ldap.server.groupSearchBase",
+      "type": "java.lang.String",
+      "description": "Description for ldap.server.groupSearchBase."
+    },
+    {
+      "name": "ldap.server.passwordAttribute",
+      "type": "java.lang.String",
+      "description": "Description for ldap.server.passwordAttribute."
+    }
+  ]
+}
