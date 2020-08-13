@@ -38,8 +38,7 @@ public class PgAccounts {
             "INSERT INTO",
             PgAccounts.TABLE_NAME,
             "(account_id, start_balance)",
-            "VALUES (?, ?)",
-            "ON CONFLICT DO UPDATE SET start_balance = ?"
+            "VALUES (?, ?)"
         );
 
     public PgAccounts(Connection connection) {
@@ -50,7 +49,7 @@ public class PgAccounts {
         try (final PreparedStatement stat = this.connection.prepareStatement(PgAccounts.INSERT)) {
             stat.setString(1, account.accountId().toString());
             stat.setDouble(2, account.balance().value());
-            stat.setDouble(3, account.balance().value());
+            stat.execute();
         } catch (SQLException exception) {
             throw new IllegalStateException(exception);
         }
