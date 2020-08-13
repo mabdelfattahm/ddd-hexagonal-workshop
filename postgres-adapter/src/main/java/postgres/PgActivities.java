@@ -1,22 +1,35 @@
+/*
+ * Developed 2020 by m_afattah as a workshop demo.
+ * All rights reserved.
+ */
 package postgres;
 
 import domain.entity.Account;
 import domain.value.Activity;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.ZoneOffset;
+import java.util.List;
 import java.util.stream.Collectors;
 
-public class PgActivities {
+/**
+ * Activities repository.
+ *
+ * @since 1.0
+ */
+public final class PgActivities {
 
+    /**
+     * Table name.
+     */
     static final String TABLE_NAME = "demo.activities";
 
-    private final Connection connection;
-
+    /**
+     * Insert query.
+     */
     private static final String INSERT =
         String.join(
             " ",
@@ -25,14 +38,34 @@ public class PgActivities {
             "(source_account, target_account, time_stamp, money) VALUES (?, ?, ?, ?)"
         );
 
+    /**
+     * JDBC connection.
+     */
+    private final Connection connection;
 
-    public PgActivities(Connection connection) {
+    /**
+     * Main constructor.
+     *
+     * @param connection JDBC connection.
+     * @since 1.0
+     */
+    public PgActivities(final Connection connection) {
         this.connection = connection;
     }
 
-    void updateAccountActivities(Account account) throws IllegalArgumentException {
-        try (final PreparedStatement stat = this.connection.prepareStatement(PgActivities.INSERT)) {
-            for (Activity activity : account.unsavedActivities().collect(Collectors.toList())) {
+    /**
+     * Store new activities.
+     *
+     * @param account Account.
+     * @throws IllegalArgumentException If storing activities fails.
+     * @since 1.0
+     * @checkstyle MagicNumberCheck (11 lines)
+     * @checkstyle MagicNumberCheck (11 lines)
+     */
+    void storeAccountNewActivities(final Account account) throws IllegalArgumentException {
+        try (PreparedStatement stat = this.connection.prepareStatement(PgActivities.INSERT)) {
+            final List<Activity> list = account.unsavedActivities().collect(Collectors.toList());
+            for (final Activity activity : list) {
                 final Instant instant = activity.timestamp.toInstant(ZoneOffset.UTC);
                 stat.setString(1, activity.source.toString());
                 stat.setString(2, activity.target.toString());

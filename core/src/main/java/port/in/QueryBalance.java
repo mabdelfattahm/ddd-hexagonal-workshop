@@ -1,18 +1,43 @@
+/*
+ * Developed 2020 by m_afattah as a workshop demo.
+ * All rights reserved.
+ */
 package port.in;
 
 import domain.value.AccountId;
 import domain.value.Money;
 import port.out.LookupAccounts;
 
-public class QueryBalance {
+/**
+ * Query balance port.
+ *
+ * @since 1.0
+ */
+public final class QueryBalance {
 
-    private final LookupAccounts accounts;
+    /**
+     * Lookup accounts port.
+     */
+    private final LookupAccounts lookup;
 
-    public QueryBalance(LookupAccounts accounts) {
-        this.accounts = accounts;
+    /**
+     * Main constructor.
+     *
+     * @param lookup Lookup accounts port.
+     * @since 1.0
+     */
+    public QueryBalance(final LookupAccounts lookup) {
+        this.lookup = lookup;
     }
 
-    Money getAccountBalance(AccountId id) {
-        return this.accounts.byId(id).balance();
+    /**
+     * Get account balance.
+     *
+     * @param id Account Id.
+     * @return Balance.
+     * @since 1.0
+     */
+    Money getAccountBalance(final AccountId id) {
+        return this.lookup.byId(id).balance();
     }
 }

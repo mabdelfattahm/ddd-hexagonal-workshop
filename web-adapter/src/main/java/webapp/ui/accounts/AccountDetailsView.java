@@ -50,7 +50,7 @@ public class AccountDetailsView extends VerticalLayout implements HasUrlParamete
 
     @Override
     public void setParameter(BeforeEvent beforeEvent, String s) {
-        final Account account = this.accounts.byId(AccountId.of(s));
+        final Account account = this.accounts.byId(AccountId.with(s));
         this.id.setText(account.accountId().toString());
         this.balance.setText(String.format("%.2f", account.balance().value()));
         this.activities.setDataProvider(

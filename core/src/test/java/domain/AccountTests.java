@@ -1,3 +1,7 @@
+/*
+ * Developed 2020 by m_afattah as a workshop demo.
+ * All rights reserved.
+ */
 package domain;
 
 import domain.entity.Account;
@@ -6,26 +10,30 @@ import domain.value.Activity;
 import domain.value.ActivityWindow;
 import domain.value.Money;
 import exception.InsufficientFundsException;
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
+/**
+ * Account domain model tests.
+ *
+ * @since 1.0
+ */
 public class AccountTests {
 
     @Test
     void calculatesBalance() {
         final AccountId id = AccountId.create();
         final Account account =
-            Account.of(
+            Account.with(
                 id,
-                Money.of(1000),
+                Money.with(1000),
                 ActivityWindow.with(
                     LocalDateTime.now(),
-                    List.of(
-                        Activity.deposit(id, Money.of(200)),
-                        Activity.withdraw(id, Money.of(400))
+                    Arrays.asList(
+                        Activity.deposit(id, Money.with(200)),
+                        Activity.withdraw(id, Money.with(400))
                     )
                 )
             );
@@ -36,19 +44,19 @@ public class AccountTests {
     void withdrawalSucceeds() {
         final AccountId id = AccountId.create();
         final Account account =
-            Account.of(
+            Account.with(
                 id,
-                Money.of(1000),
+                Money.with(1000),
                 ActivityWindow.with(
                     LocalDateTime.now(),
-                    List.of(
-                        Activity.deposit(id, Money.of(200)),
-                        Activity.withdraw(id, Money.of(400))
+                    Arrays.asList(
+                        Activity.deposit(id, Money.with(200)),
+                        Activity.withdraw(id, Money.with(400))
                     )
                 )
             );
         Assertions.assertDoesNotThrow(
-            () -> account.withdraw(Money.of(800))
+            () -> account.withdraw(Money.with(800))
         );
         Assertions.assertEquals(0, account.balance().value());
     }
@@ -57,20 +65,20 @@ public class AccountTests {
     void withdrawalFails() {
         final AccountId id = AccountId.create();
         final Account account =
-            Account.of(
+            Account.with(
                 id,
-                Money.of(1000),
+                Money.with(1000),
                 ActivityWindow.with(
                     LocalDateTime.now(),
-                    List.of(
-                        Activity.deposit(id, Money.of(200)),
-                        Activity.withdraw(id, Money.of(400))
+                    Arrays.asList(
+                        Activity.deposit(id, Money.with(200)),
+                        Activity.withdraw(id, Money.with(400))
                     )
                 )
             );
         Assertions.assertThrows(
             InsufficientFundsException.class,
-            () -> account.withdraw(Money.of(1000))
+            () -> account.withdraw(Money.with(1000))
         );
         Assertions.assertEquals(800, account.balance().value());
     }

@@ -1,21 +1,46 @@
+/*
+ * Developed 2020 by m_afattah as a workshop demo.
+ * All rights reserved.
+ */
 package port.in;
 
 import domain.value.AccountId;
 import domain.value.Activity;
-import port.out.LookupAccounts;
-
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
+import port.out.LookupAccounts;
 
-public class ListActivities {
+/**
+ * List activities input port.
+ *
+ * @since 1.0
+ */
+public final class ListActivities {
 
-    private final LookupAccounts accounts;
+    /**
+     * Lookup accounts port.
+     */
+    private final LookupAccounts lookup;
 
-    public ListActivities(LookupAccounts accounts) {
-        this.accounts = accounts;
+    /**
+     * Main constructor.
+     *
+     * @param lookup Lookup accounts port.
+     * @since 1.0
+     */
+    public ListActivities(final LookupAccounts lookup) {
+        this.lookup = lookup;
     }
 
-    Stream<Activity> byAccountId(AccountId id, LocalDateTime since) {
-        return accounts.byId(id).activities(since);
+    /**
+     * Account activities after a certain datetime.
+     *
+     * @param id Account Id.
+     * @param datetime Datetime.
+     * @return Steam of activities.
+     * @since 1.0
+     */
+    final Stream<Activity> byAccountId(final AccountId id, final LocalDateTime datetime) {
+        return this.lookup.byId(id).activities(datetime);
     }
 }

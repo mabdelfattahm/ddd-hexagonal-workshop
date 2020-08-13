@@ -11,12 +11,12 @@ public class RestAPI {
 
     private final StoreAccount storage;
 
-    public RestAPI(StoreAccount storage) {
+    public RestAPI(final StoreAccount storage) {
         this.storage = storage;
     }
 
     @PostMapping("account")
     public void addAccount(@RequestBody String balance) {
-        this.storage.store(new CreateAccount().create(Money.of(Double.parseDouble(balance))));
+        new CreateAccount(storage).create(Money.with(Double.parseDouble(balance)));
     }
 }

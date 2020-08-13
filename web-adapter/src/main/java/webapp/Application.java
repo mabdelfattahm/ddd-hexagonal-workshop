@@ -3,11 +3,7 @@ package webapp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import port.out.LookupAccounts;
-import port.out.StoreAccount;
-import postgres.PgAccounts;
 import postgres.PgAdapter;
-import postgres.PgConfig;
 
 /**
  * The entry point of the Spring Boot application.
@@ -28,7 +24,7 @@ public class Application {
 
     @Bean
     PgAdapter persistenceAdapter() {
-        return PgAdapter.getInstance();
+        return PgAdapter.create();
     }
 
 }

@@ -11,9 +11,10 @@
     <name>Code</name>
 
     <modules>
+        <module>toolkit</module>
         <module>core</module>
-        <module>web-adapter</module>
         <module>postgres-adapter</module>
+        <module>web-adapter</module>
     </modules>
 
     <build>
@@ -27,6 +28,18 @@
                         <source>${jdk.version}</source>
                         <target>${jdk.version}</target>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>com.qulice</groupId>
+                    <artifactId>qulice-maven-plugin</artifactId>
+                    <version>${qulice.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>ch.ergonomics.workshops</groupId>
+                            <artifactId>toolkit</artifactId>
+                            <version>${project.version}</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>org.flywaydb</groupId>
@@ -48,10 +61,11 @@
     </build>
 
     <properties>
-        <jdk.version>11</jdk.version>
+        <jdk.version>1.8</jdk.version>
         <junit.version>5.6.2</junit.version>
         <flyway.version>6.5.3</flyway.version>
         <vaadin.version>16.0.2</vaadin.version>
+        <qulice.version>0.18.19</qulice.version>
         <postgres.version>42.2.14</postgres.version>
         <spring.version>2.3.2.RELEASE</spring.version>
         <test.containers.version>1.14.3</test.containers.version>
@@ -67,6 +81,11 @@
             <dependency>
                 <groupId>ch.ergonomics.workshops</groupId>
                 <artifactId>core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.ergonomics.workshops</groupId>
+                <artifactId>toolkit</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
