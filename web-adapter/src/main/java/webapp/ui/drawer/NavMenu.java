@@ -1,13 +1,12 @@
 /*
- * Developed 2020 by Ergonomics AG, Zurich, CH
- * All Rights Reserved. Confidential.
+ * Developed 2020 by m_afattah as a workshop demo.
+ * All rights reserved.
  */
 package webapp.ui.drawer;
 
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Nav;
 import com.vaadin.flow.component.html.UnorderedList;
-
 import java.util.List;
 import java.util.stream.Collectors;
 

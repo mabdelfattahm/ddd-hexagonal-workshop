@@ -120,7 +120,7 @@ public final class ActivityWindow {
         return
             this
                 .activities
-                .get(account)
+                .getOrDefault(account, Collections.emptyList())
                 .stream()
                 .filter(activity -> ActivityWindow.isWithdrawal(account, activity, datetime))
                 .map(activity -> activity.money)
@@ -140,7 +140,7 @@ public final class ActivityWindow {
         return
             this
                 .activities
-                .get(account)
+                .getOrDefault(account, Collections.emptyList())
                 .stream()
                 .filter(activity -> ActivityWindow.isDeposition(account, activity, datetime))
                 .map(activity -> activity.money)

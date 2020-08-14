@@ -4,6 +4,6 @@
  */
 
 /**
- * Drawer package.
+ * Configuration package.
  */
-package webapp.ui.drawer;
+package webapp.config;

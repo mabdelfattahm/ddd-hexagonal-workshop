@@ -37,7 +37,7 @@ public final class QueryBalance {
      * @return Balance.
      * @since 1.0
      */
-    Money getAccountBalance(final AccountId id) {
+    public Money getAccountBalance(final AccountId id) {
         return this.lookup.byId(id).balance();
     }
 }

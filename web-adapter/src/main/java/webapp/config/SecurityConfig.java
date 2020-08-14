@@ -1,7 +1,19 @@
+/*
+ * Developed 2020 by m_afattah as a workshop demo.
+ * All rights reserved.
+ */
 package webapp.config;
 
 import com.vaadin.flow.server.HandlerHelper;
 import com.vaadin.flow.shared.ApplicationConstants;
+import java.io.IOException;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Stream;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -15,15 +27,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * Spring security config.
@@ -92,7 +95,7 @@ public class SecurityConfig {
                 Optional
                     .ofNullable(request.getHeader(TokenAuthenticationFilter.HEADER))
                     .orElse("");
-            if (!token.isEmpty()) {
+            if (token.equals("security-token")) {
                 chain.doFilter(request, response);
             }
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -157,8 +160,7 @@ public class SecurityConfig {
                 "/offline.html",
                 "/icons/**",
                 "/images/**",
-                "/styles/**",
-                "/api/v1/**"
+                "/styles/**"
             );
         }
 

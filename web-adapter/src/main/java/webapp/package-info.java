@@ -4,6 +4,6 @@
  */
 
 /**
- * Drawer package.
+ * Main package.
  */
-package webapp.ui.drawer;
+package webapp;

@@ -5,6 +5,7 @@
 package port.in;
 
 import domain.entity.Account;
+import domain.value.AccountId;
 import java.util.stream.Stream;
 import port.out.LookupAccounts;
 
@@ -38,6 +39,17 @@ public class ListAccounts {
      */
     public Stream<Account> accounts() {
         return this.lookup.all();
+    }
+
+    /**
+     * Account by Id.
+     *
+     * @param id Account Id.
+     * @return Account.
+     * @since 1.0
+     */
+    public Account byId(final AccountId id) {
+        return this.lookup.byId(id);
     }
 
 }

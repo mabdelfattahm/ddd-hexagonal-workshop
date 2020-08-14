@@ -1,3 +1,7 @@
+/*
+ * Developed 2020 by m_afattah as a workshop demo.
+ * All rights reserved.
+ */
 package webapp.ui.accounts;
 
 import com.vaadin.flow.component.Text;
@@ -11,25 +15,46 @@ import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import domain.entity.Account;
 import domain.value.AccountId;
-import port.out.LookupAccounts;
+import webapp.Application;
 import webapp.ui.layout.MainLayout;
 
+/**
+ * Account details view.
+ *
+ * @since 1.0
+ */
 @PageTitle("Bank | Account Details")
 @Route(value = "account", layout = MainLayout.class)
-public class AccountDetailsView extends VerticalLayout implements HasUrlParameter<String>{
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
+public final class AccountDetailsView extends VerticalLayout implements HasUrlParameter<String> {
 
+    /**
+     * View name.
+     */
     public static final String VIEW_NAME = "Account Details";
 
-    private final LookupAccounts accounts;
+    private static final long serialVersionUID = -2586991101140415320L;
 
+    /**
+     * Id text.
+     */
     private final H3 id;
+
+    /**
+     * Balance text.
+     */
     private final Text balance;
+
+    /**
+     * Activity grid view.
+     */
     private final Grid<ActivityModel> activities;
 
-    private AccountDetailsView(LookupAccounts accounts) {
-        this.accounts = accounts;
+    /**
+     * Main constructor.
+     */
+    private AccountDetailsView() {
         this.id = new H3();
         this.balance = new Text("");
         this.activities = new Grid<>();
@@ -49,13 +74,18 @@ public class AccountDetailsView extends VerticalLayout implements HasUrlParamete
     }
 
     @Override
-    public void setParameter(BeforeEvent beforeEvent, String s) {
-        final Account account = this.accounts.byId(AccountId.with(s));
-        this.id.setText(account.accountId().toString());
-        this.balance.setText(String.format("%.2f", account.balance().value()));
+    public void setParameter(final BeforeEvent event, final String parameter) {
+        final AccountId account = AccountId.with(parameter);
+        this.id.setText(parameter);
+        this.balance.setText(
+            String.format(
+                "%.2f",
+                Application.queryBalance().getAccountBalance(account).value()
+            )
+        );
         this.activities.setDataProvider(
             DataProvider.fromStream(
-                account.activities().map(ActivityModel::from)
+                Application.listActivities().byAccountId(account).map(ActivityModel::from)
             )
         );
     }

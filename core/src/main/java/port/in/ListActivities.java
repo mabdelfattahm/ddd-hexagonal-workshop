@@ -33,6 +33,17 @@ public final class ListActivities {
     }
 
     /**
+     * All account activities.
+     *
+     * @param id Account Id.
+     * @return Steam of activities.
+     * @since 1.0
+     */
+    public Stream<Activity> byAccountId(final AccountId id) {
+        return this.lookup.byId(id).activities();
+    }
+
+    /**
      * Account activities after a certain datetime.
      *
      * @param id Account Id.
@@ -40,7 +51,7 @@ public final class ListActivities {
      * @return Steam of activities.
      * @since 1.0
      */
-    Stream<Activity> byAccountId(final AccountId id, final LocalDateTime datetime) {
+    public Stream<Activity> byAccountId(final AccountId id, final LocalDateTime datetime) {
         return this.lookup.byId(id).activities(datetime);
     }
 }

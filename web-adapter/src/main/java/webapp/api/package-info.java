@@ -4,6 +4,6 @@
  */
 
 /**
- * Drawer package.
+ * Rest API main package.
  */
-package webapp.ui.drawer;
+package webapp.api;

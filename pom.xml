@@ -70,6 +70,8 @@
         <spring.version>2.3.2.RELEASE</spring.version>
         <test.containers.version>1.14.3</test.containers.version>
         <unboundid.ldapsdk.version>5.1.0</unboundid.ldapsdk.version>
+        <maven.compiler.target>${jdk.version}</maven.compiler.target>
+        <maven.compiler.source>${jdk.version}</maven.compiler.source>
         <spring.security.version>5.3.4.RELEASE</spring.security.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>

@@ -1,3 +1,7 @@
+/*
+ * Developed 2020 by m_afattah as a workshop demo.
+ * All rights reserved.
+ */
 package webapp.ui.layout;
 
 import com.vaadin.flow.component.page.AppShellConfigurator;
