@@ -20,5 +20,5 @@ public interface StoreAccount {
      * @throws IllegalStateException If storing account fails.
      * @since 1.0
      */
-    void store(Account account) throws IllegalStateException;
+    void storeAccount(Account account) throws IllegalStateException;
 }

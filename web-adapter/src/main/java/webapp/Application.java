@@ -10,6 +10,7 @@ import port.in.CreateAccount;
 import port.in.ListAccounts;
 import port.in.ListActivities;
 import port.in.QueryBalance;
+import port.in.SendMoney;
 import postgres.PgAdapter;
 
 /**
@@ -73,5 +74,15 @@ public class Application {
      */
     public static ListActivities listActivities() {
         return new ListActivities(Application.PERSISTENCE);
+    }
+
+    /**
+     * Create send money input port.
+     *
+     * @return Send money input port.
+     * @since 1.0
+     */
+    public static SendMoney sendMoney() {
+        return new SendMoney(Application.PERSISTENCE, Application.PERSISTENCE);
     }
 }

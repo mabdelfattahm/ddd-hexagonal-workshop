@@ -136,22 +136,28 @@ public final class Account {
      * Withdraw a certain amount of money.
      *
      * @param money Amount to withdraw.
+     * @return Activity created.
      * @throws InsufficientFundsException If the account balance is not enough.
      * @since 1.0
      */
-    public void withdraw(final Money money) throws InsufficientFundsException {
+    public Activity withdraw(final Money money) throws InsufficientFundsException {
         this.canWithdraw(money);
-        this.window.addActivity(Activity.withdraw(this.id, money));
+        final Activity activity = Activity.withdraw(this.id, money);
+        this.window.addActivity(activity);
+        return activity;
     }
 
     /**
      * Deposit money into account.
      *
      * @param money Amount to deposit.
+     * @return Activity created.
      * @since 1.0
      */
-    public void deposit(final Money money) {
-        this.window.addActivity(Activity.deposit(this.id, money));
+    public Activity deposit(final Money money) {
+        final Activity activity = Activity.deposit(this.id, money);
+        this.window.addActivity(activity);
+        return activity;
     }
 
     /**
@@ -159,15 +165,18 @@ public final class Account {
      *
      * @param target Target account Id.
      * @param money Amount to transfer.
+     * @return Activity created.
      * @throws InsufficientFundsException If this account does not have enough money to transfer.
      * @since 1.0
      */
-    public void transfer(
+    public Activity transfer(
         final AccountId target,
         final Money money
     ) throws InsufficientFundsException {
         this.canWithdraw(money);
-        this.window.addActivity(Activity.transfer(this.id, target, money));
+        final Activity activity = Activity.transfer(this.id, target, money);
+        this.window.addActivity(activity);
+        return activity;
     }
 
     /**

@@ -38,6 +38,11 @@ import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 public class SecurityConfig {
 
     /**
+     * Rest Api ant matcher.
+     */
+    private static final String API_URL = "/api/v1/**";
+
+    /**
      * Restful API config using custom token.
      *
      * @since 1.0
@@ -48,7 +53,7 @@ public class SecurityConfig {
 
         @Override
         protected final void configure(final HttpSecurity http) throws Exception {
-            http.antMatcher("/api/v1/**")
+            http.antMatcher(SecurityConfig.API_URL)
                 .cors()
                 .and()
                 .csrf()
@@ -160,7 +165,8 @@ public class SecurityConfig {
                 "/offline.html",
                 "/icons/**",
                 "/images/**",
-                "/styles/**"
+                "/styles/**",
+                SecurityConfig.API_URL
             );
         }
 

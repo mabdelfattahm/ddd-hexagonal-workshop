@@ -9,6 +9,7 @@ import domain.value.AccountId;
 import domain.value.Activity;
 import domain.value.ActivityWindow;
 import domain.value.Money;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,9 +68,7 @@ public final class PgAccount {
                 .map(PgActivity::toDomain)
                 .collect(Collectors.toList());
         final AccountId account = AccountId.with(this.id);
-        final ActivityWindow window = ActivityWindow.unmodifiable(list);
-        final Money deposited = window.depositedIntoAccount(account);
-        final Money withdrawn = window.withdrawnFromAccount(account);
-        return Account.with(account, Money.with(this.balance).plus(deposited).minus(withdrawn));
+        final ActivityWindow window = ActivityWindow.with(LocalDateTime.now(), list);
+        return Account.with(account, Money.with(this.balance), window);
     }
 }

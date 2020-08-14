@@ -41,7 +41,7 @@ public final class CreateAccount {
      */
     public Account create(final Money starting) throws IllegalStateException {
         final Account account = Account.with(AccountId.create(), starting);
-        this.storage.store(account);
+        this.storage.storeAccount(account);
         return account;
     }
 }

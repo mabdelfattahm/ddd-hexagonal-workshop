@@ -4,7 +4,7 @@
  */
 package postgres;
 
-import domain.entity.Account;
+import domain.value.AccountId;
 import domain.value.Activity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,8 +12,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.ZoneOffset;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 /**
  * Activities repository.
@@ -54,28 +53,55 @@ public final class PgActivities {
     }
 
     /**
-     * Store new activities.
+     * Store activities.
      *
-     * @param account Account.
+     * @param activities Activities.
      * @throws IllegalArgumentException If storing activities fails.
      * @since 1.0
-     * @checkstyle MagicNumberCheck (11 lines)
-     * @checkstyle MagicNumberCheck (11 lines)
      */
-    void storeAccountNewActivities(final Account account) throws IllegalArgumentException {
+    void storeActivity(final Activity... activities) throws IllegalArgumentException {
         try (PreparedStatement stat = this.connection.prepareStatement(PgActivities.INSERT)) {
-            final List<Activity> list = account.unsavedActivities().collect(Collectors.toList());
-            for (final Activity activity : list) {
-                final Instant instant = activity.timestamp.toInstant(ZoneOffset.UTC);
-                stat.setString(1, activity.source.toString());
-                stat.setString(2, activity.target.toString());
-                stat.setTimestamp(3, Timestamp.from(instant));
-                stat.setDouble(4, activity.money.value());
-                stat.addBatch();
+            for (final Activity activity : activities) {
+                PgActivities.addActivityToBatch(stat, activity);
             }
             stat.executeBatch();
         } catch (final SQLException exception) {
             throw new IllegalArgumentException(exception);
         }
+    }
+
+    /**
+     * Add activity to statement to execute in batch mode.
+     *
+     * @param stat Prepared statement.
+     * @param activity Activity.
+     * @throws SQLException If adding element to statement fails.
+     * @since 1.0
+     * @checkstyle MagicNumberCheck (13 lines)
+     * @checkstyle MagicNumberCheck (13 lines)
+     */
+    private static void addActivityToBatch(
+        final PreparedStatement stat,
+        final Activity activity
+    ) throws SQLException {
+        final Instant instant = activity.timestamp.toInstant(ZoneOffset.UTC);
+        final String source = PgActivities.stringFromAccountId(activity.source);
+        final String target = PgActivities.stringFromAccountId(activity.target);
+        stat.setString(1, source);
+        stat.setString(2, target);
+        stat.setTimestamp(3, Timestamp.from(instant));
+        stat.setDouble(4, activity.money.value());
+        stat.addBatch();
+    }
+
+    /**
+     * Get string from account Id.
+     *
+     * @param account Account Id.
+     * @return String
+     * @since 1.0
+     */
+    private static String stringFromAccountId(final AccountId account) {
+        return Optional.ofNullable(account).map(AccountId::toString).orElse(null);
     }
 }

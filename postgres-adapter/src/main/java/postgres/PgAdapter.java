@@ -6,17 +6,18 @@ package postgres;
 
 import domain.entity.Account;
 import domain.value.AccountId;
+import domain.value.Activity;
 import java.util.stream.Stream;
 import port.out.LookupAccounts;
 import port.out.StoreAccount;
-import port.out.UpdateAccountActivities;
+import port.out.StoreActivity;
 
 /**
  * Postgres adapter.
  *
  * @since 1.0
  */
-public final class PgAdapter implements LookupAccounts, UpdateAccountActivities, StoreAccount {
+public final class PgAdapter implements LookupAccounts, StoreActivity, StoreAccount {
 
     /**
      * Postgres config.
@@ -58,16 +59,18 @@ public final class PgAdapter implements LookupAccounts, UpdateAccountActivities,
     }
 
     @Override
-    public void updateActivities(final Account account) throws IllegalStateException {
-        new PgActivities(this.config.connection).storeAccountNewActivities(account);
+    public void storeActivity(final Activity activity) throws IllegalStateException {
+        new PgActivities(this.config.connection).storeActivity(activity);
     }
 
     @Override
-    public void store(final Account account) throws IllegalStateException {
+    public void storeAccount(final Account account) throws IllegalStateException {
         this.config.inTransaction(
             connection -> {
                 new PgAccounts(connection).save(account);
-                new PgActivities(connection).storeAccountNewActivities(account);
+                new PgActivities(connection).storeActivity(
+                    account.unsavedActivities().toArray(Activity[]::new)
+                );
             }
         );
     }

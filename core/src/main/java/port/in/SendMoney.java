@@ -4,14 +4,18 @@
  */
 package port.in;
 
+import domain.entity.Account;
 import domain.value.AccountId;
 import domain.value.Money;
 import exception.ConcurrentOperationException;
 import exception.InsufficientFundsException;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 import port.out.LookupAccounts;
+import port.out.StoreActivity;
 
 /**
  * Send money input port.
@@ -31,13 +35,63 @@ public class SendMoney {
     private final LookupAccounts lookup;
 
     /**
+     * Lookup accounts port.
+     */
+    private final StoreActivity activities;
+
+    /**
      * Main constructor.
      *
      * @param lookup Lookup accounts port.
+     * @param activities Update account activities.
      * @since 1.0
      */
-    public SendMoney(final LookupAccounts lookup) {
+    public SendMoney(final LookupAccounts lookup, final StoreActivity activities) {
         this.lookup = lookup;
+        this.activities = activities;
+    }
+
+    /**
+     * Withdraw money from account.
+     *
+     * @param id Account Id.
+     * @param money Money account.
+     * @throws ConcurrentOperationException If any of accounts is locked in another transaction.
+     * @throws InsufficientFundsException If the source account does not have enough money.
+     * @since 1.0
+     */
+    public void withdraw(
+        final AccountId id,
+        final Money money
+    ) throws ConcurrentOperationException, InsufficientFundsException {
+        if (SendMoney.anyLocked(id)) {
+            throw new ConcurrentOperationException();
+        }
+        final Account account = this.lookup.byId(id);
+        SendMoney.lock(id);
+        this.activities.storeActivity(account.withdraw(money));
+        SendMoney.release(id);
+    }
+
+    /**
+     * Deposit money into account.
+     *
+     * @param id Account Id.
+     * @param money Money account.
+     * @throws ConcurrentOperationException If any of accounts is locked in another transaction.
+     * @since 1.0
+     */
+    public void deposit(
+        final AccountId id,
+        final Money money
+    ) throws ConcurrentOperationException {
+        if (SendMoney.anyLocked(id)) {
+            throw new ConcurrentOperationException();
+        }
+        final Account account = this.lookup.byId(id);
+        SendMoney.lock(id);
+        this.activities.storeActivity(account.deposit(money));
+        SendMoney.release(id);
     }
 
     /**
@@ -58,8 +112,10 @@ public class SendMoney {
         if (SendMoney.anyLocked(source, target)) {
             throw new ConcurrentOperationException();
         }
+        final Account sor = this.lookup.byId(source);
+        final Account trg = this.lookup.byId(target);
         SendMoney.lock(source, target);
-        this.lookup.byId(source).transfer(target, money);
+        this.activities.storeActivity(sor.transfer(trg.accountId(), money));
         SendMoney.release(source, target);
     }
 
@@ -69,7 +125,9 @@ public class SendMoney {
      * @param accounts Accounts to lock.
      */
     private static void lock(final AccountId... accounts) {
-        SendMoney.LOCKED_ACCOUNTS.addAll(Arrays.asList(accounts));
+        SendMoney
+            .LOCKED_ACCOUNTS
+            .addAll(Arrays.stream(accounts).filter(Objects::nonNull).collect(Collectors.toList()));
     }
 
     /**
@@ -91,6 +149,7 @@ public class SendMoney {
         return
             Arrays
                 .stream(accounts)
+                .filter(Objects::nonNull)
                 .map(SendMoney.LOCKED_ACCOUNTS::contains)
                 .reduce(false, Boolean::logicalOr);
     }
