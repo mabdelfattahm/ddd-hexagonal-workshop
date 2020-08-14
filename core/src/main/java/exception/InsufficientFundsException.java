@@ -4,4 +4,9 @@
  */
 package exception;
 
+/**
+ * Insufficient funds on an account exception.
+ *
+ * @since 1.0
+ */
 public class InsufficientFundsException extends Exception { }

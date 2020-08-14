@@ -12,6 +12,7 @@ import java.util.Objects;
  *
  * @since 1.0
  */
+@SuppressWarnings("PMD.ProhibitPublicStaticMethods")
 public final class Money {
 
     /**
@@ -56,7 +57,7 @@ public final class Money {
      * @return A new money instance.
      * @since 1.0
      */
-    public Money minus(final Money money){
+    public Money minus(final Money money) {
         return new Money(this.amount.subtract(money.amount));
     }
 
@@ -83,14 +84,14 @@ public final class Money {
 
     @Override
     @SuppressWarnings("PMD.ConfusingTernary")
-    public boolean equals(final Object o) {
+    public boolean equals(final Object another) {
         final boolean result;
-        if (o == this) {
+        if (another == this) {
             result = true;
-        } else if (!(o instanceof Money)) {
+        } else if (!(another instanceof Money)) {
             result = false;
         } else {
-            final Money other = (Money) o;
+            final Money other = (Money) another;
             result = Objects.equals(this.amount, other.amount);
         }
         return result;

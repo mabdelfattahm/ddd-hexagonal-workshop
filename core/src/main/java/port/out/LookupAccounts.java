@@ -6,7 +6,6 @@ package port.out;
 
 import domain.entity.Account;
 import domain.value.AccountId;
-
 import java.util.stream.Stream;
 
 /**

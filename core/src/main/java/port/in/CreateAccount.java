@@ -36,6 +36,7 @@ public final class CreateAccount {
      *
      * @param starting Starting balance.
      * @return Account.
+     * @throws IllegalStateException If storing account fails.
      * @since 1.0
      */
     public Account create(final Money starting) throws IllegalStateException {

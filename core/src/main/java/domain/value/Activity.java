@@ -39,7 +39,7 @@ public final class Activity implements Comparable<Activity> {
     /**
      * Activity timestamp.
      *
-     *
+     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     public final LocalDateTime timestamp;
 
@@ -73,6 +73,7 @@ public final class Activity implements Comparable<Activity> {
      * @param money Money amount.
      * @return Activity.
      * @since 1.0
+     * @checkstyle ParameterNumberCheck (3 lines)
      */
     public static Activity with(
         final AccountId source,
@@ -137,7 +138,8 @@ public final class Activity implements Comparable<Activity> {
     /**
      * Is the activity a withdrawal.
      *
-     * @return 1.0
+     * @return Boolean
+     * @since 1.0
      */
     public boolean isWithdrawal() {
         return Objects.nonNull(this.source) && Objects.isNull(this.target);

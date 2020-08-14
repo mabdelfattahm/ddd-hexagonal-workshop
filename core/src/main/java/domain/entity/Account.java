@@ -18,7 +18,7 @@ import java.util.stream.Stream;
  *
  * @since 1.0
  */
-@SuppressWarnings("PMD.ProhibitPublicStaticMethods")
+@SuppressWarnings({"PMD.ProhibitPublicStaticMethods", "PMD.TooManyMethods"})
 public final class Account {
 
     /**
@@ -97,7 +97,7 @@ public final class Account {
     public Money balance() {
         return
             this.starting
-                .plus(window.depositedIntoAccount(this.id))
+                .plus(this.window.depositedIntoAccount(this.id))
                 .minus(this.window.withdrawnFromAccount(this.id));
     }
 
@@ -133,7 +133,7 @@ public final class Account {
     }
 
     /**
-     * Withdraw a certain amount of money
+     * Withdraw a certain amount of money.
      *
      * @param money Amount to withdraw.
      * @throws InsufficientFundsException If the account balance is not enough.
@@ -162,7 +162,10 @@ public final class Account {
      * @throws InsufficientFundsException If this account does not have enough money to transfer.
      * @since 1.0
      */
-    public void transfer(final AccountId target, final Money money) throws InsufficientFundsException {
+    public void transfer(
+        final AccountId target,
+        final Money money
+    ) throws InsufficientFundsException {
         this.canWithdraw(money);
         this.window.addActivity(Activity.transfer(this.id, target, money));
     }

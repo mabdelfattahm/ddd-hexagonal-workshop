@@ -40,7 +40,7 @@ public final class ListActivities {
      * @return Steam of activities.
      * @since 1.0
      */
-    final Stream<Activity> byAccountId(final AccountId id, final LocalDateTime datetime) {
+    Stream<Activity> byAccountId(final AccountId id, final LocalDateTime datetime) {
         return this.lookup.byId(id).activities(datetime);
     }
 }

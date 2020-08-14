@@ -12,6 +12,7 @@ import java.util.UUID;
  *
  * @since 1.0
  */
+@SuppressWarnings("PMD.ProhibitPublicStaticMethods")
 public final class AccountId {
 
     /**
@@ -56,15 +57,15 @@ public final class AccountId {
 
     @Override
     @SuppressWarnings("PMD.ConfusingTernary")
-    public boolean equals(final Object o) {
+    public boolean equals(final Object other) {
         final boolean result;
-        if (o == this){
+        if (other == this) {
             result = true;
-        } else if (!(o instanceof AccountId)) {
+        } else if (!(other instanceof AccountId)) {
             result = false;
         } else {
-            final AccountId other = (AccountId) o;
-            result = Objects.equals(this.uuid, other.uuid);
+            final AccountId another = (AccountId) other;
+            result = Objects.equals(this.uuid, another.uuid);
         }
         return result;
     }

@@ -8,11 +8,10 @@ import domain.value.AccountId;
 import domain.value.Money;
 import exception.ConcurrentOperationException;
 import exception.InsufficientFundsException;
-import port.out.LookupAccounts;
-
 import java.util.Arrays;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import port.out.LookupAccounts;
 
 /**
  * Send money input port.
@@ -22,14 +21,14 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SendMoney {
 
     /**
-     * Lookup accounts port.
-     */
-    private final LookupAccounts lookup;
-
-    /**
      * Locked accounts map.
      */
     private static final Set<AccountId> LOCKED_ACCOUNTS = ConcurrentHashMap.newKeySet();
+
+    /**
+     * Lookup accounts port.
+     */
+    private final LookupAccounts lookup;
 
     /**
      * Main constructor.

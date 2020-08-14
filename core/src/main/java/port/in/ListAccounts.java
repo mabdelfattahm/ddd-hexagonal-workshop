@@ -18,16 +18,16 @@ public class ListAccounts {
     /**
      * Lookup accounts port.
      */
-    final LookupAccounts accounts;
+    private final LookupAccounts lookup;
 
     /**
      * Main constructor.
      *
-     * @param accounts Lookup accounts port.
+     * @param lookup Lookup accounts port.
      * @since 1.0
      */
-    public ListAccounts(final LookupAccounts accounts) {
-        this.accounts = accounts;
+    public ListAccounts(final LookupAccounts lookup) {
+        this.lookup = lookup;
     }
 
     /**
@@ -37,7 +37,7 @@ public class ListAccounts {
      * @since 1.0
      */
     public Stream<Account> accounts() {
-        return this.accounts.all();
+        return this.lookup.all();
     }
 
 }

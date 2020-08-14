@@ -22,6 +22,12 @@ import org.junit.jupiter.api.Test;
  */
 public class AccountTests {
 
+    /**
+     * Test balance calculations.
+     *
+     * @since 1.0
+     * @checkstyle NonStaticMethodCheck (3 lines)
+     */
     @Test
     void calculatesBalance() {
         final AccountId id = AccountId.create();
@@ -37,9 +43,16 @@ public class AccountTests {
                     )
                 )
             );
+        // @checkstyle MagicNumber (1 line)
         Assertions.assertEquals(800, account.balance().value());
     }
 
+    /**
+     * Test withdrawal.
+     *
+     * @since 1.0
+     * @checkstyle NonStaticMethodCheck (3 lines)
+     */
     @Test
     void withdrawalSucceeds() {
         final AccountId id = AccountId.create();
@@ -55,12 +68,18 @@ public class AccountTests {
                     )
                 )
             );
-        Assertions.assertDoesNotThrow(
-            () -> account.withdraw(Money.with(800))
-        );
+        // @checkstyle MagicNumber (1 line)
+        Assertions.assertDoesNotThrow(() -> account.withdraw(Money.with(800)));
+        // @checkstyle MagicNumber (1 line)
         Assertions.assertEquals(0, account.balance().value());
     }
 
+    /**
+     * Test deposition.
+     *
+     * @since 1.0
+     * @checkstyle NonStaticMethodCheck (3 lines)
+     */
     @Test
     void withdrawalFails() {
         final AccountId id = AccountId.create();
@@ -76,10 +95,12 @@ public class AccountTests {
                     )
                 )
             );
+        // @checkstyle MagicNumber (3 line)
         Assertions.assertThrows(
             InsufficientFundsException.class,
             () -> account.withdraw(Money.with(1000))
         );
+        // @checkstyle MagicNumber (1 line)
         Assertions.assertEquals(800, account.balance().value());
     }
 }

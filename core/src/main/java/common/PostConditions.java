@@ -12,7 +12,13 @@ import java.util.function.Supplier;
  *
  * @since 1.0
  */
-public class PostConditions {
+@SuppressWarnings("PMD.ProhibitPublicStaticMethods")
+public final class PostConditions {
+
+    /**
+     * Private constructir to prevent initialization.
+     */
+    private PostConditions() { }
 
     /**
      * Test a condition that must be successful or throw the provided exception.

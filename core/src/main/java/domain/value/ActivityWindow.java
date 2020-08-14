@@ -5,7 +5,13 @@
 package domain.value;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -126,6 +132,7 @@ public final class ActivityWindow {
      * Amount deposited from into an account after the given datetime.
      *
      * @param account Account Id.
+     * @param datetime Datetime.
      * @return Amount of money deposited into account.
      * @since 1.0
      */
@@ -148,18 +155,8 @@ public final class ActivityWindow {
      * @since 1.0
      */
     public void addActivity(final Activity activity) {
-        Optional.ofNullable(activity.source).ifPresent(
-            acc -> {
-                final List<Activity> list = this.activities.getOrDefault(acc, new LinkedList<>());
-                list.add(activity);
-                this.activities.put(acc, list);
-            }
-        );
-        Optional.ofNullable(activity.target).ifPresent(acc -> {
-            final List<Activity> list = this.activities.getOrDefault(acc, new LinkedList<>());
-            list.add(activity);
-            this.activities.put(acc, list);
-        });
+        Optional.ofNullable(activity.source).ifPresent(acc -> this.insertActivity(acc, activity));
+        Optional.ofNullable(activity.target).ifPresent(acc -> this.insertActivity(acc, activity));
     }
 
     /**
@@ -194,6 +191,18 @@ public final class ActivityWindow {
     }
 
     /**
+     * Insert activity into activity map.
+     *
+     * @param account Account Id.
+     * @param activity Activity.
+     */
+    private void insertActivity(final AccountId account, final Activity activity) {
+        final List<Activity> list = this.activities.getOrDefault(account, new LinkedList<>());
+        list.add(activity);
+        this.activities.put(account, list);
+    }
+
+    /**
      * Is the given activity a deposit into the given account after the given datetime.
      *
      * @param account Account Id.
@@ -206,7 +215,7 @@ public final class ActivityWindow {
         final Activity activity,
         final LocalDateTime datetime
     ) {
-        return (!activity.timestamp.isBefore(datetime))
+        return !activity.timestamp.isBefore(datetime)
             && (activity.isDeposition() || activity.isTransferredTo(account));
     }
 
